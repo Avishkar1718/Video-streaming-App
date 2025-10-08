@@ -3,6 +3,7 @@ import { DB_NAME } from "./constants.js";
 import express from "express";
 import dotenv from "dotenv";
 import connectDB from "./db/index.js";
+import { app } from "./app.js";
 
 dotenv.config({
   path: "./.env",
@@ -25,4 +26,13 @@ const app = express();
 })();
 */
 
-connectDB();
+connectDB()
+  .then(() => {
+    app.listen(process.env.PPORT || 8000, () => {
+      console.log(`App is listening on port ${process.env.PORT}`);
+    })
+  })
+  .catch(() => {
+  console.log("MongoDb connection Failed !!!!!!");
+  
+})
